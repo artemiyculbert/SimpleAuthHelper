@@ -1,0 +1,8 @@
+--- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/poggit-orphanage/SimpleAuthHelper
+branches:
+- master
+projects:
+  SimpleAuthHelper:
+    path: ""
+    icon: media/helper.alt-icon.png
+...
