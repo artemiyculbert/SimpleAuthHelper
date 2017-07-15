@@ -1,6 +1,7 @@
 <?php
 namespace aliuly\helper\common;
 use pocketmine\item\Item;
+use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\MainLogger;
 use pocketmine\command\CommandSender;
@@ -209,7 +210,7 @@ abstract class MPMU {
 			$aliasList = [];
 			foreach($yaml["aliases"] as $alias) {
 				if(strpos($alias,":")!== false) {
-					$this->owner->getLogger()->info("Unable to load alias $alias");
+					Server::getInstance()->getLogger()->info("Unable to load alias $alias");
 					continue;
 				}
 				$aliasList[] = $alias;

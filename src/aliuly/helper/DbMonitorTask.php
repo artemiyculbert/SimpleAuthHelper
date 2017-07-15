@@ -102,7 +102,7 @@ class DbMonitorTask extends PluginTask implements Listener{
     return false;
   }
 
-	public function onRun($currentTicks){
+	public function onRun(int $currentTicks){
     $mgr = $this->getOwner()->getServer()->getPluginManager();
     $auth = $mgr->getPlugin("SimpleAuth");
     if ($auth === null) return; // OK, this is weird!

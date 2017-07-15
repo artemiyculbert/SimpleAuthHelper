@@ -392,7 +392,7 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 		}
 		return true;
 	}
-	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
+	public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args) : bool{
 		if (!$this->auth) {
 			$sender->sendMessage(TextFormat::RED.mc::_("SimpleAuthHelper has been disabled"));
 			$sender->sendMessage(TextFormat::RED.mc::_("SimpleAuth not found!"));
