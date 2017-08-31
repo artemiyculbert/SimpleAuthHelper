@@ -1,49 +1,20 @@
 <img src="https://raw.githubusercontent.com/Muirfield/SimpleAuthHelper/master/media/helper.alt-icon.png" style="width:64px;height:64px" width="64" height="64"/>
 
-<!-- meta:Categories = AdminTools -->
-<!-- meta:PluginAccess = Commands, Other Plugins, Manages Permissions -->
-<!-- template: gd2/header.md -->
-
 # SimpleAuthHelper
 
 - Summary: Simplifies the way people authenticate to servers
-- PocketMine-MP version: 1.5 (API:1.12.0)
+- PocketMine-MP version: 1.6.2dev and 1.7dev (API:3.0.0-ALPHA7)
 - DependencyPlugins: SimpleAuth
-- OptionalPlugins: 
-- Categories: AdminTools 
-- Plugin Access: Commands, Other Plugins, Manages Permissions 
-
-<!-- end-include -->
+- Categories: Admin Tools 
+- Plugin Access: Commands, Other Plugins, Manages Permissions
 
 ## Overview
-
-<!-- php: $v_forum_thread = "http://forums.pocketmine.net/threads/simpleauthhelper.8074/"; -->
-<!-- template: prologue.md -->
-
-**DO NOT POST QUESTION/BUG-REPORTS/REQUESTS IN THE REVIEWS**
-
-It is difficult to carry a conversation in the reviews.  If you
-have a question/bug-report/request please use the
-[Thread](http://forums.pocketmine.net/threads/simpleauthhelper.8074/) for
-that.  You are more likely to get a response and help that way.
-
-_NOTE:_
-
-This documentation was last updated for version **2.0.4**.
-
-Please go to
-[github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/SimpleAuthHelper)
-for the most up-to-date documentation.
-
-You can also download this plugin from this [page](https://github.com/alejandroliu/pocketmine-plugins/releases/tag/SimpleAuthHelper-2.0.4).
-
-<!-- end-include -->
 
 A plugin that simplifies the login process. Instead of
 asking for commands, users simply chat away.
 
 I also provides for a number of tweaks that can improve the usability of
-[SimpleAuth](https://forums.pocketmine.net/plugins/simpleauth.4/).
+[SimpleAuth](https://poggit.pmmp.io/p/SimpleAuth).
 
 #### Register process
 
@@ -163,15 +134,6 @@ languages currently available are:
 
 You can provide your own message file by creating a file called
 **messages.ini** in the plugin config directory.
-Check [github](https://github.com/alejandroliu/pocketmine-plugins/tree/master/SimpleAuthHelper/resources/messages/)
-for sample files.
-Alternatively, if you have
-[GrabBag](http://forums.pocketmine.net/plugins/grabbag.1060/)
-installed, you can create an empty **messages.ini** using the command:
-
-     pm dumpmsgs SimpleAuthHelper [lang]
-
-<!-- end-include -->
 
 ### Issues
 
