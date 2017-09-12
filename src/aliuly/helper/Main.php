@@ -321,9 +321,16 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 	}
 	protected function authenticate($pl,$password) {
 		$provider = $this->auth->getDataProvider();
-		if (($data = $provider->getPlayer($pl)) === null) {
-			return false;
-		}
+		if (method_exists($provider, "getPlayerData")){
+            if (($data = $provider->getPlayerData($pl->getName())) === null) {
+                return false;
+            }
+        }else{
+            if (($data = $provider->getPlayer($pl)) === null) {
+                return false;
+            }
+        }
+
 		return hash_equals($data["hash"], $this->hash(strtolower($pl->getName()), $password));
 	}
 
