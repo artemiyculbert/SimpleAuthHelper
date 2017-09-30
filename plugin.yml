@@ -1,11 +1,11 @@
 main: aliuly\helper\Main
-api: [3.0.0-ALPHA7, 3.0.0-ALPHA8]
+api: [3.0.0-ALPHA7, 3.0.0-ALPHA8, 3.0.0-ALPHA9]
 load: POSTWORLD
 depend: [SimpleAuth]
 
 name: SimpleAuthHelper
 description: Simplifies the way people authenticate to servers
-version: 2.0.6-1.alpha8
+version: 2.0.6-3
 author: aliuly
 website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/SimpleAuthHelper
 
@@ -35,7 +35,7 @@ permissions:
     default: true
     description: "Allow users to change passwords"
   simpleauthhelper.command.logout:
-    default: true
+    default: op
     description: "Allow users to logout"
   simpleauthhelper.command.resetpwd:
     default: op

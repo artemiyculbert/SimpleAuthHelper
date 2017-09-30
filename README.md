@@ -3,9 +3,9 @@
 # SimpleAuthHelper
 
 - Summary: Simplifies the way people authenticate to servers
-- PocketMine-MP version: 1.6.2dev and 1.7dev (API:3.0.0-ALPHA7)
+- PocketMine-MP version: 1.6.2dev and 1.7dev (API:3.0.0-ALPHA7/8/9)
 - DependencyPlugins: SimpleAuth
-- Categories: Admin Tools 
+- Categories: Admin Tools
 - Plugin Access: Commands, Other Plugins, Manages Permissions
 
 ## Overview
