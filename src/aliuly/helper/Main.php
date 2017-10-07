@@ -89,7 +89,7 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 			"# leet-mode" => "lets players use also /login and /register",
 			"leet-mode" => true,
 			"# chat-protect" => "prevent player to display their password in chat",
-			"chat-protect" => false,
+			"chat-protect" => true,
 			"# hide-unauth" => "EXPERIMENTAL, hide unauthenticated players",
 			"hide-unauth" => false,
 			"# event-fixer" => "EXPERIMENTAL, cancels additional events",// for unauthenticated players
@@ -102,6 +102,10 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 			"db-monitor" => false,
 			"# monitor-settings" => "Configure database monitor settings",
 			"monitor-settings" => DbMonitorTask::defaults(),
+            "# allow-resetpwd-ingame" => "Allow password reset in game",
+            "allow-resetpwd-ingame" => false,
+            "# protected-users" => "Array of lowercase usernames for whom '/pwdreset username' is disallowed in game",
+            "protected-users" => [],
 		];
 		$this->cfg=(new Config($this->getDataFolder()."config.yml",
 										  Config::YAML,$defaults))->getAll();
@@ -358,6 +362,15 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 		return false;
 	}
 	private function resetpwd($sender, $name) {
+	    if ((($sender instanceof Player) && !$this->cfg["allow-resetpwd-ingame"])){
+            $sender->sendMessage(TextFormat::RED . mc::_("Unable to unregister %1%",$name));
+            return true;
+        }
+        if ((($sender instanceof Player) && $this->cfg["allow-resetpwd-ingame"]) && array_search(strtolower($name), $this->cfg["protected-users"]) !== false){
+            $sender->sendMessage(TextFormat::RED . mc::_("Unable to unregister %1%",$name));
+            return true;
+        }
+
 		$player = $this->getServer()->getOfflinePlayer($name);
 		if($this->auth->unregisterPlayer($player)){
 			$sender->sendMessage(TextFormat::GREEN . mc::_("%1% unregistered",$name));
