@@ -13,7 +13,7 @@ use aliuly\helper\common\mc;
  * My PocketMine Utils class
  */
 abstract class MPMU {
-	/** @var str[] $items Nice names for items */
+	/** @var string[] $items Nice names for items */
 	static protected $items = [];
 	/** @const str VERSION plugin version string */
 	const VERSION = "1.90.0";
@@ -22,9 +22,9 @@ abstract class MPMU {
 	 * libcommon library version.  If a version is provided it will check
 	 * the version using apiCheck.
 	 *
-	 * @param str version Version to check
+	 * @param string version Version to check
 	 *
-	 * @return str|bool
+	 * @return string|bool
 	 */
 	static public function version($version = "") {
 		if ($version == "") return self::VERSION;
@@ -33,9 +33,9 @@ abstract class MPMU {
 	/**
 	 * Used to check the PocketMine API version
 	 *
-	 * @param str version Version to check
+	 * @param string version Version to check
 	 *
-	 * @return str|bool
+	 * @return string|bool
 	 */
 	static public function apiVersion($version = "") {
 		if ($version == "") return \pocketmine\API_VERSION;
@@ -47,8 +47,8 @@ abstract class MPMU {
 	 *
 	 * >=, <=, <> or !=, =, !|~, <, >
 	 *
-	 * @param str api Installed API version
-	 * @param str version API version to compare against
+	 * @param string api Installed API version
+	 * @param string version API version to compare against
 	 *
 	 * @return bool
 	 */
@@ -79,8 +79,8 @@ abstract class MPMU {
 	/**
 	 * Returns a localized string for the gamemode
 	 *
-	 * @param int mode
-	 * @return str
+	 * @param int $mode
+	 * @return string
 	 */
 	static public function gamemodeStr($mode) {
 		if (class_exists(__NAMESPACE__."\\mc",false)) {
@@ -104,7 +104,7 @@ abstract class MPMU {
 	 * Check's player or sender's permissions and shows a message if appropriate
 	 *
 	 * @param CommandSender $sender
-	 * @param str $permission
+	 * @param string $permission
 	 * @param bool $msg If false, no message is shown
 	 * @return bool
 	 */
@@ -131,8 +131,8 @@ abstract class MPMU {
 	/**
 	 * Takes a player and creates a string suitable for indexing
 	 *
-	 * @param Player|str $player - Player to index
-	 * @return str
+	 * @param Player|string $player - Player to index
+	 * @return string
 	 */
 	static public function iName($player) {
 		if ($player instanceof Player) {
@@ -144,8 +144,8 @@ abstract class MPMU {
 	 * Lile file_get_contents but for a Plugin resource
 	 *
 	 * @param Plugin $plugin
-	 * @param str $filename
-	 * @return str|null
+	 * @param string $filename
+	 * @return string|null
 	 */
 	static public function getResourceContents($plugin,$filename) {
 		$fp = $plugin->getResource($filename);
@@ -171,8 +171,8 @@ abstract class MPMU {
 	 * the class for method calling instead.
 	 *
 	 * @param Server $server - pocketmine server instance
-	 * @param str|array $plug - plugin to call
-	 * @param str $method - method to call
+	 * @param string|array $plug - plugin to call
+	 * @param string $method - method to call
 	 * @param mixed $default - If the plugin does not exist or it is not enable, this value is returned
 	 * @return mixed
 	 */
@@ -196,7 +196,7 @@ abstract class MPMU {
 	 *
 	 * @param Plugin $plugin - plugin that "owns" the command
 	 * @param CommandExecutor $executor - object that will be called onCommand
-	 * @param str $cmd - Command name
+	 * @param string $cmd - Command name
 	 * @param array $yaml - Additional settings for this command.
 	 * @deprecated Moved to Cmd class
 	 */
@@ -228,7 +228,7 @@ abstract class MPMU {
 	/**
 	 * Unregisters a command
 	 * @param Server|Plugin $obj - Access path to server instance
-	 * @param str $cmd - Command name to remove
+	 * @param string $cmd - Command name to remove
 	 * @deprecated Moved to Cmd class
 	 */
 	static public function rmCommand($srv, $cmd) {
@@ -246,7 +246,7 @@ abstract class MPMU {
 	 * Currently only supports SimpleAuth and BasicHUD.
 	 *
 	 * @param Player $player
-	 * @param str $msg
+	 * @param string $msg
 	 */
 	static public function sendPopup($player,$msg) {
 		$pm = $player->getServer()->getPluginManager();
@@ -263,9 +263,9 @@ abstract class MPMU {
 	}
 	/**
 	 * Check prefixes
-	 * @param str $txt - input text
-	 * @param str $tok - keyword to test
-	 * @return str|null
+	 * @param string $txt - input text
+	 * @param string $tok - keyword to test
+	 * @return string|null
 	 */
 	static public function startsWith($txt,$tok) {
 		$ln = strlen($tok);

@@ -21,7 +21,7 @@ namespace aliuly\helper\common;
  * * mc::n(mc::\_("singular form"),mc::\_("Plural form"),$count)
  */
 abstract class mc {
-	/** @var str[] $txt Message translations */
+	/** @var string[] $txt Message translations */
 	public static $txt = [];
 	/** Main translation function
 	 *
@@ -30,8 +30,8 @@ abstract class mc {
 	 * These are inserted from the following arguments.  Use "%%" to insert
 	 * a single "%".
 	 *
-	 * @param str[] $args - messages
-	 * @return str translated string
+	 * @param string[] $args - messages
+	 * @return string translated string
 	 */
 	public static function _(...$args) {
 		$fmt = array_shift($args);
@@ -50,10 +50,10 @@ abstract class mc {
 	/**
 	 * Plural and singular forms.
 	 *
-	 * @param str $a - Singular form
-	 * @param str $b - Plural form
+	 * @param string $a - Singular form
+	 * @param string $b - Plural form
 	 * @param int $c - the number to test to select between $a or $b
-	 * @return str - Either plural or singular forms depending on the value of $c
+	 * @return string - Either plural or singular forms depending on the value of $c
 	 */
 	public static function n($a,$b,$c) {
 		return $c == 1 ? $a : $b;
@@ -62,7 +62,7 @@ abstract class mc {
 	 * Load a message file for a PocketMine plugin.  Only uses .ini files.
 	 *
 	 * @param Plugin $plugin - owning plugin
-	 * @param str $path - output of $plugin->getFile()
+	 * @param string $path - output of $plugin->getFile()
 	 * @return int|false - false on error or the number of messages loaded
 	 */
 	public static function plugin_init($plugin,$path) {
@@ -79,7 +79,7 @@ abstract class mc {
 	/**
 	 * Load the specified message catalogue.
 	 * Can read .ini or .po files.
-	 * @param str $f - Filename to load
+	 * @param string $f - Filename to load
 	 * @return int|false - returns the number of strings loaded or false on error
 	 */
 	public static function load($f) {
