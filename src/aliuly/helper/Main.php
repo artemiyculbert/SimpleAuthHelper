@@ -135,7 +135,7 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 	public function onPlayerJoin(PlayerJoinEvent $ev) {
 		if ($this->cfg["login-timeout"] !== 0) {
 			$n = $ev->getPlayer()->getName();
-			$this->getServer()->getScheduler()->scheduleDelayedTask(new PluginCallbackTask($this,[$this,"checkTimeout"],[$n]),$this->cfg["login-timeout"]*20);
+			$this->getScheduler()->scheduleDelayedTask(new PluginCallbackTask($this,[$this,"checkTimeout"],[$n]),$this->cfg["login-timeout"]*20);
 		}
 		if ($this->cfg["hide-unauth"]) {
 			$p = $ev->getPlayer();
@@ -255,7 +255,7 @@ class Main extends PluginBase implements Listener,CommandExecutor {
 			} else {
 				$this->pwds[$n] = 1;
 			}
-			$this->getServer()->getScheduler()->scheduleDelayedTask(new PluginCallbackTask($this,[$this,"checkLoginCount"],[$n]),5);
+			$this->getScheduler()->scheduleDelayedTask(new PluginCallbackTask($this,[$this,"checkLoginCount"],[$n]),5);
 		}*/
 		//##TODO!!!
 		$msg = $ev->getMessage();

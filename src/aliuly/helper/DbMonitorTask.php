@@ -1,16 +1,17 @@
 <?php
 namespace aliuly\helper;
 
-use pocketmine\scheduler\PluginTask;
+use pocketmine\scheduler\Task;
 use pocketmine\event\Listener;
 use aliuly\helper\Main as HelperPlugin;
 use aliuly\helper\common\mc;
 use aliuly\helper\common\PluginCallbackTask;
+use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 
-class DbMonitorTask extends PluginTask implements Listener{
+class DbMonitorTask extends Task implements Listener{
   protected $canary;
   protected $ok;
   protected $dbm;
@@ -26,14 +27,14 @@ class DbMonitorTask extends PluginTask implements Listener{
 		];
 	}
 	public function __construct(HelperPlugin $owner,$cfg){
-		parent::__construct($owner);
+  	$this->plugin = $owner;
     $this->canary = $cfg["canary-account"];
     if ($owner->auth->isEnabled()) {
       $this->dbm = $owner->auth->getDataProvider();
       $this->ok = true; // Assume things are OK...
       if (!$this->pollDB()) {
         // If this fails then canary account doesn't exist yet... create it
-        $player = $this->getOwner()->getServer()->getOfflinePlayer($this->canary);
+        $player = $this->plugin->getServer()->getOfflinePlayer($this->canary);
         if ($player === null) {
           throw new \RuntimeException("canary account definition error!");
           return;
@@ -47,31 +48,31 @@ class DbMonitorTask extends PluginTask implements Listener{
       $this->ok = false;
     }
 
-    $owner->getServer()->getScheduler()->scheduleRepeatingTask($this,$cfg["check-interval"]*20);
+    $owner->getScheduler()->scheduleRepeatingTask($this,$cfg["check-interval"]*20);
     $owner->getServer()->getPluginManager()->registerEvents($this, $owner);
 	}
   private function setStatus($mode) {
     if ($this->ok === $mode) return;
     $this->ok = $mode;
     if ($mode) {
-      $this->getOwner()->getLogger()->info(mc::_("Restored database connection"));
-      $this->getOwner()->getServer()->broadcastMessage(TextFormat::GREEN.mc::_("Database connectivity restored!"));
+      $this->plugin->getLogger()->info(mc::_("Restored database connection"));
+      Server::getInstance()->broadcastMessage(TextFormat::GREEN.mc::_("Database connectivity restored!"));
       return;
     }
-    $this->getOwner()->getLogger()->error(mc::_("LOST DATABASE CONNECTION!"));
-    $this->getOwner()->getServer()->broadcastMessage(TextFormat::RED.mc::_("Detected loss of database connectivity!"));
+    Server::getInstance()->getLogger()->error(mc::_("LOST DATABASE CONNECTION!"));
+    Server::getInstance()->broadcastMessage(TextFormat::RED.mc::_("Detected loss of database connectivity!"));
     // Kick all unregistered players...
-    $auth = $this->getOwner()->getServer()->getPluginManager()->getPlugin("SimpleAuth");
+    $auth = Server::getInstance()->getPluginManager()->getPlugin("SimpleAuth");
     if ($auth !== null) {
       $cnt = 0;
-      foreach ($this->getOwner()->getServer()->getOnlinePlayers() as $ll) {
+      foreach (Server::getInstance()->getOnlinePlayers() as $ll) {
         if (!$auth->isPlayerAuthenticated($ll)) {
           $this->delayedKick($ll,mc::_("Database is experiencing technical difficulties"));
           ++$cnt;
         }
       }
       if ($cnt)
-        $this->getOwner()->getServer()->broadcastMessage(
+		  Server::getInstance()->broadcastMessage(
           TextFormat::BLUE.
           mc::n(
             mc::_("one unauthenticated player was kicked"),
@@ -85,25 +86,25 @@ class DbMonitorTask extends PluginTask implements Listener{
   private function enableAuth($mgr,$auth) {
     if ($auth === null) return false; // OK, this is weird!
     if ($auth->isEnabled()) return true;
-    $this->getOwner()->getLogger()->info(mc::_("Enabling SimpleAuth"));
+    Server::getInstance()->getLogger()->info(mc::_("Enabling SimpleAuth"));
     $mgr->enablePlugin($auth);
     if (!$auth->isEnabled()) return false;
     $this->dbm = $auth->getDataProvider();
     return true;
   }
   private function pollDB() {
-    $player = $this->getOwner()->getServer()->getOfflinePlayer($this->canary);
+    $player = Server::getInstance()->getOfflinePlayer($this->canary);
     if ($player == null) return true;//Automatically assume things are OK :)
     try {
       return $this->dbm->isPlayerRegistered($player);
     } catch (\Exception $e) {
-      $this->getOwner()->getLogger()->error(mc::_("DBM Error: %1%",$e->getMessage()));
+		Server::getInstance()->getLogger()->error(mc::_("DBM Error: %1%",$e->getMessage()));
     }
     return false;
   }
 
 	public function onRun(int $currentTicks){
-    $mgr = $this->getOwner()->getServer()->getPluginManager();
+    $mgr = Server::getInstance()->getPluginManager();
     $auth = $mgr->getPlugin("SimpleAuth");
     if ($auth === null) return; // OK, this is weird!
 
@@ -122,23 +123,23 @@ class DbMonitorTask extends PluginTask implements Listener{
      * let's try to reconnect by resetting SimpleAuth
      */
     if ($auth->isEnabled()) {
-      $this->getOwner()->getLogger()->info(mc::_("Disabling SimpleAuth"));
+		Server::getInstance()->getLogger()->info(mc::_("Disabling SimpleAuth"));
       $mgr->disablePlugin($auth);
     }
     if (!$auth->isEnabled()) {
-      $this->getOwner()->getLogger()->info(mc::_("Enabling SimpleAuth"));
+		Server::getInstance()->getLogger()->info(mc::_("Enabling SimpleAuth"));
       if (!$this->enableAuth($mgr,$auth)) return; // Ouch...
     }
     if ($this->pollDB()) $this->setStatus(true);
 	}
   public function doKick($n,$msg) {
-    $pl = $this->getOwner()->getServer()->getPlayer($n);
+    $pl = Server::getInstance()->getPlayer($n);
     if ($pl === null) return;
     $pl->kick($msg);
   }
   private function delayedKick($pl,$msg) {
-    $this->getOwner()->getServer()->getScheduler()->scheduleDelayedTask(
-      new PluginCallbackTask($this->getOwner(),[$this,"doKick"],[$pl->getName(),$msg]),
+    $this->plugin->getScheduler()->scheduleDelayedTask(
+      new PluginCallbackTask($this->plugin,[$this,"doKick"],[$pl->getName(),$msg]),
       10
     );
   }
