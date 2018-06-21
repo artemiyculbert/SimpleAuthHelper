@@ -1,11 +1,11 @@
 main: aliuly\helper\Main
-api: [3.0.0-ALPHA12]
+api: [3.0.0]
 load: POSTWORLD
 depend: [SimpleAuth]
 
 name: SimpleAuthHelper
 description: Simplifies the way people authenticate to servers
-version: 2.0.6-8
+version: 2.0.7
 author: aliuly
 website: https://github.com/alejandroliu/pocketmine-plugins/tree/master/SimpleAuthHelper
 
